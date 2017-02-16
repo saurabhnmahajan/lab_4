@@ -2,7 +2,8 @@
 # @Author: Maria Villalobos
 # @Date:   2017-02-16 13:37:47
 # @Last Modified by:   mati
-# @Last Modified time: 2017-02-16 13:42:05
+# @Last Modified time: 2017-02-16 17:11:06
+# Advanced Python Programming - Lab 4
 # This example was extracted from http://web.mit.edu/6.005/www/sp15/classes/03-code-review/
 # and translated to Python for the purpose of this course
 
@@ -17,6 +18,8 @@
 # 5. One purpose for each variable
 # 6. Use Good Names (take naming conventions into account)
 # 7. Use Whitespace to Help the Reader
+
+from datetime import timedelta
 
 
 def Day_Of_Year(Month, Day_Of_Month, Year):
@@ -58,3 +61,41 @@ def leap(y):
         if (tmp[3] == '0' or tmp[3] == '4' or tmp[3] == '8'):
             return True
     return False
+
+
+def get_crossover_signal(self, on_date):
+    '''This is another example of Smelly Code from the Test- Driven Python Development book
+    by Siddharta Govindaraj Chapter 3'''
+    cpl = []
+    for i in range(11):
+        chk = on_date.date() - timedelta(i)
+        for price_event in reversed(self.price_history):
+            if price_event.timestamp.date() > chk:
+                pass
+            if price_event.timestamp.date() == chk:
+                cpl.insert(0, price_event)
+                break
+            if price_event.timestamp.date() < chk:
+                cpl.insert(0, price_event)
+                break
+
+            # Return NEUTRAL signal
+            if len(cpl) < 11:
+                cpl.insert(0, price_event)
+                break
+
+            # BUY signal
+            if sum([update.price for update in cpl[-11:-1]]) / 10 \
+                    > sum([update.price for update in cpl[-6:-1]]) / 5 \
+                    and sum([update.price for update in cpl[-10:]]) / 10 \
+                    < sum([update.price for update in cpl[-5:]]) / 5:
+                        return 1
+            # BUY signal
+            if sum([update.price for update in cpl[-11:-1]]) / 10 \
+                    < sum([update.price for update in cpl[-6:-1]]) / 5 \
+                    and sum([update.price for update in cpl[-10:]]) / 10 \
+                    > sum([update.price for update in cpl[-5:]]) / 5:
+                        return -1
+
+            # NEUTRAL signal
+            return 0
