@@ -21,32 +21,14 @@
 
 from datetime import timedelta
 
-
-def Day_Of_Year(Month, Day_Of_Month, Year):
-    if (Month == 2):
-        Day_Of_Month += 31
-    elif (Month == 3):
-        Day_Of_Month += 59
-    elif (Month == 4):
-        Day_Of_Month += 90
-    elif (Month == 5):
-        Day_Of_Month += 31 + 28 + 31 + 30
-    elif (Month == 6):
-        Day_Of_Month += 31 + 28 + 31 + 30 + 31
-    elif (Month == 7):
-        Day_Of_Month += 31 + 28 + 31 + 30 + 31 + 30
-    elif (Month == 8):
-        Day_Of_Month += 31 + 28 + 31 + 30 + 31 + 30 + 31
-    elif (Month == 9):
-        Day_Of_Month += 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31
-    elif (Month == 10):
-        Day_Of_Month += 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30
-    elif (Month == 11):
-        Day_Of_Month += 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31
-    elif (Month == 12):
-        Day_Of_Month += 31 + 28 + 31 + 30 + 31 + 30 + 31 + 31 + 30 + 31 + 31
-    return Day_Of_Month
-
+def Day_Of_Year(month, dayof_month, Year):
+    if month > 12 and month < 2:
+        print('Month value invalid')
+    else:
+        days_in_a_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+        for i in range(0,month-1):
+            dayof_month += days_in_a_month[i]
+        return dayof_month
 
 def leap(y):
     tmp = str(y)
@@ -61,7 +43,6 @@ def leap(y):
         if (tmp[3] == '0' or tmp[3] == '4' or tmp[3] == '8'):
             return True
     return False
-
 
 def get_crossover_signal(self, on_date):
     '''This is another example of Smelly Code from the Test- Driven Python Development book
@@ -99,3 +80,5 @@ def get_crossover_signal(self, on_date):
 
             # NEUTRAL signal
             return 0
+
+print (Day_Of_Year(13,5,2017) == 64)
